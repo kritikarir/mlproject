@@ -48,3 +48,16 @@ def evaluate_models(X_train, y_train, X_test, y_test, models, param):
 
     except Exception as err:
         raise CustomException(err,sys)
+    
+def load_object(file_path):
+    try:
+        if not os.path.exists(file_path):
+            raise FileNotFoundError(f"File not found at: {file_path}")
+        if os.path.getsize(file_path) == 0:
+            raise EOFError(f"File is empty: {file_path}")
+        
+        with open(file_path, "rb") as file_obj:
+            return dill.load(file_obj)
+    
+    except (FileNotFoundError, EOFError, Exception) as err:
+        raise CustomException(err, sys)
